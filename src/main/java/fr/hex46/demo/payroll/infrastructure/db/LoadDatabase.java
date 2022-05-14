@@ -1,7 +1,6 @@
 package fr.hex46.demo.payroll.infrastructure.db;
 
-import fr.hex46.demo.payroll.domain.Employee;
-import fr.hex46.demo.payroll.domain.Order;
+import fr.hex46.demo.payroll.domain.order.Order;
 import fr.hex46.demo.payroll.domain.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,13 +15,8 @@ class LoadDatabase {
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
     @Bean
-    CommandLineRunner initDatabase(EmployeeRepository employeeRepository, OrderRepository orderRepository) {
+    CommandLineRunner initDatabase(OrderRepository orderRepository) {
         return args -> {
-            employeeRepository.save(new Employee("Bilbo", "Baggins", "burglar"));
-            employeeRepository.save(new Employee("Frodo", "Baggins", "thief"));
-
-            employeeRepository.findAll().forEach(employee -> log.info("Preloaded " + employee));
-
 
             orderRepository.save(new Order("MacBook Pro", Status.COMPLETED));
             orderRepository.save(new Order("iPhone", Status.IN_PROGRESS));
