@@ -1,23 +1,29 @@
 package fr.hex46.demo.payroll.domain;
-import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
-@Entity
-@Table(name = "CUSTOMER_ORDER")
-@Getter @Setter @EqualsAndHashCode
-@NoArgsConstructor
+import java.util.UUID;
+
+@AllArgsConstructor
+@EqualsAndHashCode @ToString @Getter
 public class Order {
 
-    private @Id @GeneratedValue Long id;
+    private UUID uuid;
     private String description;
     private Status status;
 
-    public Order(String description, Status status) {
-        this.description = description;
-        this.status = status;
+    public void cancel() throws OrderException {
+        if (this.status != Status.IN_PROGRESS)
+            throw new OrderException("You can't cancel an order that is in the " + this.status + " status.");
+        this.status = Status.CANCELLED;
+    }
+
+    public void complete() throws OrderException {
+        if (this.status != Status.IN_PROGRESS)
+            throw new OrderException("You can't cancel an order that is in the " + this.status + " status.");
+        this.status = Status.COMPLETED;
     }
 }
